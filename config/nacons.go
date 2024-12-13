@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"github.com/nacos-group/nacos-sdk-go/v2/clients/config_client"
 	"github.com/spf13/viper"
 
@@ -19,7 +20,7 @@ func getClient() (config_client.IConfigClient, error) {
 
 	//create ClientConfig
 	cc := *constant.NewClientConfig(
-		constant.WithNamespaceId(""),
+		constant.WithNamespaceId(viper.GetString("namespace")),
 		constant.WithTimeoutMs(viper.GetUint64("timeout-ms")),
 		constant.WithNotLoadCacheAtStart(true),
 		constant.WithLogDir(viper.GetString("log-dir")),
@@ -42,6 +43,8 @@ func GetConfig() (string, error) {
 		return "", err
 	}
 
+	fmt.Println(viper.GetString("data-id"))
+	fmt.Println(viper.GetString("group"))
 	return client.GetConfig(vo.ConfigParam{
 		DataId: viper.GetString("data-id"),
 		Group:  viper.GetString("group"),
@@ -49,7 +52,7 @@ func GetConfig() (string, error) {
 }
 
 //
-//
+//TODO:监听配置
 //func ListenConfig() {
 //	//Listen config change,key=dataId+group+namespaceId.
 //	err = client.ListenConfig(vo.ConfigParam{

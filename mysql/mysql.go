@@ -9,13 +9,15 @@ import (
 )
 
 type MysqlConfig struct {
-	Mysql struct {
-		Host   string `yaml:"host"`
-		Port   int64  `yaml:"port"`
-		User   string `yaml:"user"`
-		Pwd    string `yaml:"pwd"`
-		Dbname string `yaml:"Dbname"`
-	}
+	Mysql Mysql `yaml:"mysql"`
+}
+
+type Mysql struct {
+	Host   string `yaml:"host"`
+	Port   int64  `yaml:"port"`
+	User   string `yaml:"user"`
+	Pwd    string `yaml:"pwd"`
+	Dbname string `yaml:"dbname"`
 }
 
 func WithClient(hand func(db *gorm.DB) error) error {
