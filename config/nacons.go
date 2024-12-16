@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"github.com/nacos-group/nacos-sdk-go/v2/clients/config_client"
 	"github.com/spf13/viper"
 
@@ -42,9 +41,6 @@ func GetConfig() (string, error) {
 	if err != nil {
 		return "", err
 	}
-
-	fmt.Println(viper.GetString("data-id"))
-	fmt.Println(viper.GetString("group"))
 	return client.GetConfig(vo.ConfigParam{
 		DataId: viper.GetString("data-id"),
 		Group:  viper.GetString("group"),
