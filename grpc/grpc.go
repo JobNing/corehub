@@ -30,6 +30,8 @@ import (
 func RegisterGRPC(port int64, hand func(s *grpc.Server)) error {
 	// TODO:自动获取ip
 	//ip := "127.0.0.1"
+
+	//调用nacos完成服务注册到nacos
 	err := config.RegisterServiceInstance(viper.GetString("ip"), port, viper.GetString("service-name"))
 	if err != nil {
 		return err
