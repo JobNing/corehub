@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"github.com/spf13/viper"
 
 	"github.com/nacos-group/nacos-sdk-go/v2/clients"
@@ -52,8 +53,26 @@ func RegisterServiceInstance(ip string, port int64, serviceName string) error {
 		Ip:          ip,
 		Port:        uint64(port),
 		ServiceName: serviceName,
+		Enable:      true,
 	})
 	return err
+}
+
+func GetServiceInstance(serviceName string) (string, error) {
+	//获取服务注册与发现的Client
+	client, err := clients.NewNamingClient(getConfig())
+	if err != nil {
+		return "", err
+	}
+
+	//通过Client调用服务注册的方法，填充ip 端口和服务名
+	info, err := client.GetService(vo.GetServiceParam{
+		ServiceName: serviceName,
+	})
+	if err != nil {
+		return "", err
+	}
+	return fmt.Sprintf("%v:%v", info.Hosts[0].Ip, info.Hosts[0].Port), nil
 }
 
 //
